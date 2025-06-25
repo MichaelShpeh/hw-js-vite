@@ -1,0 +1,15 @@
+{
+  "name": "lesson-4",
+  "version": "1.0.0",
+  "main": "hw-4.js",
+  "scripts": {
+    "start": "node hw-4.js"
+  },
+  "keywords": [],
+  "author": "Mykhailo",
+  "license": "ISC",
+  "description": "It's my first hw with node",
+  "dependencies": {
+    "lodash": "^4.17.21"
+  }
+}

@@ -1,0 +1,10 @@
+<div class="user-card">
+    <h2>{{name}}</h2>
+    <p>Вік: {{age}}</p>
+
+    {{#if isAdmin}}
+    <p class="admin-label">🔑 Адміністратор</p>
+    {{else}}
+    <p class="user-label">👤 Звичайний користувач</p>
+    {{/if}}
+</div>
