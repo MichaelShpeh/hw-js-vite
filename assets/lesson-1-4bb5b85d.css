@@ -1,0 +1,1 @@
+#buttons-box{margin:16px;padding:20px;display:grid;gap:20px;justify-content:center;color:tomato;outline:1px solid tomato}#buttons-box.active{background-color:#e0ffff}.buttons-box-button{padding:10px 20px}.buttons-box-button.active{background-color:#90ee90}
