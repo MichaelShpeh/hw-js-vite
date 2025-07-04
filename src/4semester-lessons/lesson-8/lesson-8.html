@@ -1,11 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>hw-8</title>
+    <link rel="stylesheet" href="./lesson-8.css">
+  </head>
+  <body>
+    <form id="student-info-form">
+      <input
+        type="text"
+        name="name"
+        placeholder="Ім'я"
+        minlength="3"
+        required
+      />
+      <input type="text" name="second-name" placeholder="Прізвище" required />
+      <input type="number" name="age" placeholder="Вік" required />
+      <input type="text" name="course" placeholder="Курс" required />
+      <input type="text" name="faculty" placeholder="Факультет" required />
+      <button type="submit">Додати студента</button>
+    </form>
+    <ul id="students-list">
+      Список студентів:
+    </ul>
+
+    <div id="delete-modal" class="modal hidden">
+      <div class="modal-content">
+        <p>Видалити картку?</p>
+        <button id="confirm-delete">Так</button>
+        <button id="cancel-delete">Ні</button>
+      </div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div id="edit-modal" class="modal hidden">
+      <form id="edit-form" class="modal-content">
+        <input type="text" name="name" required />
+        <input type="text" name="second-name" required />
+        <input type="number" name="age" required />
+        <input type="text" name="course" required />
+        <input type="text" name="faculty" required />
+        <button type="submit">Оновити</button>
+        <button type="button" id="cancel-edit">Скасувати</button>
+      </form>
+    </div>
+
+    <script type="module" src="./js/lesson-8.js"></script>
+  </body>
 </html>
