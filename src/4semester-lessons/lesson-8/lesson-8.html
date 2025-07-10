@@ -4,46 +4,67 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>hw-8</title>
-    <link rel="stylesheet" href="./lesson-8.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./css/reset.css" />
+    <link rel="stylesheet" href="./css/lesson-8.css" />
   </head>
   <body>
     <form id="student-info-form">
       <input
+        class="input"
         type="text"
         name="name"
         placeholder="Ім'я"
         minlength="3"
         required
       />
-      <input type="text" name="second-name" placeholder="Прізвище" required />
-      <input type="number" name="age" placeholder="Вік" required />
-      <input type="text" name="course" placeholder="Курс" required />
-      <input type="text" name="faculty" placeholder="Факультет" required />
-      <button type="submit">Додати студента</button>
+      <input
+        class="input"
+        type="text"
+        name="second-name"
+        placeholder="Прізвище"
+        required
+      />
+      <input
+        class="input"
+        type="number"
+        name="age"
+        placeholder="Вік"
+        required
+      />
+      <input
+        class="input"
+        type="text"
+        name="course"
+        placeholder="Курс"
+        required
+      />
+      <input
+        class="input"
+        type="text"
+        name="faculty"
+        placeholder="Факультет"
+        required
+      />
+      <button class="button" type="submit">Додати студента</button>
     </form>
     <ul id="students-list">
-      Список студентів:
+      <li class="item">Список студентів:</li>
     </ul>
 
-    <div id="delete-modal" class="modal hidden">
-      <div class="modal-content">
-        <p>Видалити картку?</p>
-        <button id="confirm-delete">Так</button>
-        <button id="cancel-delete">Ні</button>
+    <div class="backdrop is-hidden">
+      <div class="modal">
+        <form>
+          <h2 class="modal-title">Видалити картку?</h2>
+          <button type="button" class="confirm-button">Так</button>
+          <button type="button" class="delete-button">Ні</button>
+        </form>
       </div>
-    </div>
-
-    <!-- Edit Modal -->
-    <div id="edit-modal" class="modal hidden">
-      <form id="edit-form" class="modal-content">
-        <input type="text" name="name" required />
-        <input type="text" name="second-name" required />
-        <input type="number" name="age" required />
-        <input type="text" name="course" required />
-        <input type="text" name="faculty" required />
-        <button type="submit">Оновити</button>
-        <button type="button" id="cancel-edit">Скасувати</button>
-      </form>
     </div>
 
     <script type="module" src="./js/lesson-8.js"></script>
