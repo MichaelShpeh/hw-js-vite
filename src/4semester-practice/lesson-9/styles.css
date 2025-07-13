@@ -1,0 +1,19 @@
+body {
+    background-color: black;
+}
+
+.students-list {
+    display: grid;
+    gap: 10px;
+}
+
+.item {
+    outline: 3px solid #595959;
+    display: grid;
+    gap: 10px;
+    border-radius: 4px;
+}
+
+.item > p {
+    color: white;
+}

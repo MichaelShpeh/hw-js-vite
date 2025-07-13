@@ -1,11 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>hw-9</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./css/reset.css" />
+    <link rel="stylesheet" href="./css/lesson-9.css" />
+  </head>
+  <body>
+    <form id="student-info-form">
+      <h2>Додавання картки зі студентом</h2>
+      <input
+        class="input"
+        type="text"
+        name="name"
+        placeholder="Ім'я"
+        minlength="3"
+        required
+      />
+      <input
+        class="input"
+        type="text"
+        name="second-name"
+        placeholder="Прізвище"
+        required
+      />
+      <input
+        class="input"
+        type="number"
+        name="age"
+        placeholder="Вік"
+        required
+      />
+      <input
+        class="input"
+        type="text"
+        name="course"
+        placeholder="Курс"
+        required
+      />
+      <input
+        class="input"
+        type="text"
+        name="faculty"
+        placeholder="Факультет"
+        required
+      />
+      <button class="button" type="submit">Додати студента</button>
+    </form>
+    <ul id="students-list">
+      <li class="item">Список студентів:</li>
+    </ul>
+
+    <div class="backdrop is-hidden">
+      <div class="modal">
+        <form>
+          <h2 class="modal-title">Видалити картку?</h2>
+          <button type="button" class="confirm-button">Так</button>
+          <button type="button" class="delete-button">Ні</button>
+        </form>
+      </div>
+    </div>
+
+    <script type="module" src="./js/lesson-9.js"></script>
+  </body>
 </html>
