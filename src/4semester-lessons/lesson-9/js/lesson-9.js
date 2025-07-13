@@ -8,7 +8,7 @@ Handlebars.registerHelper("addOne", function (index) {
 
 const studentTemplate = Handlebars.compile(student);
 
-//! Знаходимо всі елементи з ррозмітки
+//! знаходимо всі елементи з розмітки
 const modal = document.querySelector(".backdrop");
 const confirmButton = document.querySelector(".confirm-button");
 const deleteButton = document.querySelector(".delete-button");
@@ -16,6 +16,17 @@ const form = document.getElementById("student-info-form");
 const list = document.getElementById("students-list");
 
 let dataArray = [];
+
+//! спроба завантажити з localStorage при старті
+const saved = localStorage.getItem("students");
+if (saved) {
+  try {
+    dataArray = JSON.parse(saved);
+    renderList(JSON.stringify(dataArray));
+  } catch (e) {
+    console.error("Помилка при зчитуванні з localStorage:", e);
+  }
+}
 
 //! додаємо студента
 form.addEventListener("submit", function (e) {
@@ -27,9 +38,9 @@ form.addEventListener("submit", function (e) {
 
     dataArray.push(data);
 
-    const dataJSON = JSON.stringify(dataArray);
+    localStorage.setItem("students", JSON.stringify(dataArray));
 
-    renderList(dataJSON);
+    renderList(JSON.stringify(dataArray));
 
     form.reset();
   } catch (error) {
@@ -43,7 +54,6 @@ function renderList(json) {
     const parsedData = JSON.parse(json);
 
     list.innerHTML = '<li class="item">Список студентів:</li>';
-    
 
     parsedData.forEach((studentData, index) => {
       studentData._index = index;
@@ -59,7 +69,6 @@ function renderList(json) {
     console.error(error);
   }
 }
-
 
 //! відкриття модалки
 let deleteIndex = null;
@@ -78,6 +87,7 @@ list.addEventListener("click", function (e) {
 confirmButton.addEventListener("click", () => {
   if (deleteIndex !== null) {
     dataArray.splice(deleteIndex, 1);
+    localStorage.setItem("students", JSON.stringify(dataArray));
     renderList(JSON.stringify(dataArray));
     deleteIndex = null;
   }
@@ -89,7 +99,6 @@ deleteButton.addEventListener("click", () => {
   deleteIndex = null;
   modal.classList.add("is-hidden");
 });
-
 
 //! редагування студента
 list.addEventListener("click", (e) => {
@@ -129,6 +138,7 @@ list.addEventListener("click", (e) => {
         const updatedStudent = Object.fromEntries(formData.entries());
 
         dataArray[index] = updatedStudent;
+        localStorage.setItem("students", JSON.stringify(dataArray));
         renderList(JSON.stringify(dataArray));
       } catch (error) {
         console.error(error);
