@@ -31,23 +31,18 @@ closeBtn.addEventListener("click", function () {
 
 let dataArray = [];
 
-//! завантаження з localstorage або students.json
 if (!localStorage.getItem("students")) {
-  fetch("students.json")
-    .then((res) => res.json())
-    .then((data) => {
-      dataArray = data;
-      const dataJSON = JSON.stringify(dataArray);
-      localStorage.setItem("students", dataJSON);
-      renderList(dataJSON);
-    })
-    .catch((err) => console.error("Помилка завантаження JSON:", err));
+  dataArray = [];
+  const dataJSON = JSON.stringify(dataArray);
+  localStorage.setItem("students", dataJSON);
+  renderList(dataArray);
 } else {
   try {
-    dataArray = JSON.parse(localStorage.getItem("students"));
-    renderList(JSON.stringify(dataArray));
+    const storedData = localStorage.getItem("students");
+    dataArray = JSON.parse(storedData);
+    renderList(dataArray);
   } catch (e) {
-    console.error("Помилка при зчитуванні з localStorage:", e);
+    console.error("Помилка парсингу localStorage:", e);
   }
 }
 
@@ -74,25 +69,18 @@ form.addEventListener("submit", function (e) {
 });
 
 //! функція яка додає студента в список
-function renderList(json) {
-  try {
-    const parsedData = JSON.parse(json);
+function renderList(data) {
+  list.innerHTML = '<li class="item">Список студентів:</li>';
 
-    list.innerHTML = '<li class="item">Список студентів:</li>';
-
-    parsedData.forEach((studentData, index) => {
-      studentData._index = index;
-
-      try {
-        const markup = studentTemplate(studentData);
-        list.insertAdjacentHTML("beforeend", markup);
-      } catch (error) {
-        console.error(error);
-      }
-    });
-  } catch (error) {
-    console.error(error);
-  }
+  data.forEach((studentData, index) => {
+    studentData._index = index;
+    try {
+      const markup = studentTemplate(studentData);
+      list.insertAdjacentHTML("beforeend", markup);
+    } catch (error) {
+      console.error(error);
+    }
+  });
 }
 
 //! оновлюємо localstorage
@@ -151,7 +139,7 @@ list.addEventListener("click", (e) => {
     editForm.elements["age"].value = student.age;
     editForm.elements["course"].value = student.course;
     editForm.elements["faculty"].value = student.facult;
-    
+
     editForm.addEventListener("submit", (event) => {
       event.preventDefault();
       try {
@@ -173,14 +161,15 @@ list.addEventListener("click", (e) => {
       }
     });
 
-    
-    editForm.querySelector(".cancel-edit").addEventListener("click", () => {
-      form.id = "student-info-form";
-      editForm.remove();
-    });
+    editForm
+      .querySelector(".cancel-edit-modal")
+      .addEventListener("click", () => {
+        form.id = "student-info-form";
+        // editForm.remove();
+        editBackdrop.classList.add("is-hidden");
+      });
   }
 });
-
 
 list.addEventListener("click", (e) => {
   if (e.target.classList.contains("edit-btn")) {
@@ -196,7 +185,6 @@ list.addEventListener("click", (e) => {
     editForm.elements["course"].value = student.course;
     editForm.elements["faculty"].value = student.faculty;
 
-  
     editBackdrop.classList.remove("is-hidden");
   }
 });
@@ -218,11 +206,4 @@ editForm.addEventListener("submit", (event) => {
     editBackdrop.classList.add("is-hidden");
     editIndex = null;
   }
-});
-
-//! скасування змінення
-document.querySelector(".cancel-edit").addEventListener("click", () => {
-  editForm.reset();
-  editBackdrop.classList.add("is-hidden");
-  editIndex = null;
 });

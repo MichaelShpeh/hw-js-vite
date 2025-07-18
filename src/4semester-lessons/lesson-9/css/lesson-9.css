@@ -57,7 +57,7 @@ body {
 }
 
 .student-item {
-  width: 300px;
+  width: 600px;
   height: auto;
   display: flex;
   flex-direction: column;
