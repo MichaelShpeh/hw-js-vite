@@ -14,46 +14,53 @@
     <link rel="stylesheet" href="./css/lesson-9.css" />
   </head>
   <body>
-    <form id="student-info-form">
-      <h2>Додавання картки зі студентом</h2>
-      <input
-        class="input"
-        type="text"
-        name="name"
-        placeholder="Ім'я"
-        minlength="3"
-        required
-      />
-      <input
-        class="input"
-        type="text"
-        name="second-name"
-        placeholder="Прізвище"
-        required
-      />
-      <input
-        class="input"
-        type="number"
-        name="age"
-        placeholder="Вік"
-        required
-      />
-      <input
-        class="input"
-        type="text"
-        name="course"
-        placeholder="Курс"
-        required
-      />
-      <input
-        class="input"
-        type="text"
-        name="faculty"
-        placeholder="Факультет"
-        required
-      />
-      <button class="button" type="submit">Додати студента</button>
-    </form>
+    <button class="buttonOpn">Додати студента</button>
+    <div class="backdrop-1 is-hidden">
+      <div class="modal-1">
+        <form id="student-info-form">
+          <h2>Додавання картки зі студентом</h2>
+          <input
+            class="input"
+            type="text"
+            name="name"
+            placeholder="Ім'я"
+            minlength="3"
+            required
+          />
+          <input
+            class="input"
+            type="text"
+            name="second-name"
+            placeholder="Прізвище"
+            required
+          />
+          <input
+            class="input"
+            type="number"
+            name="age"
+            placeholder="Вік"
+            required
+          />
+          <input
+            class="input"
+            type="text"
+            name="course"
+            placeholder="Курс"
+            required
+          />
+          <input
+            class="input"
+            type="text"
+            name="faculty"
+            placeholder="Факультет"
+            required
+          />
+          <button class="button" type="submit">Додати студента</button>
+          <button class="formCloseBtn">Закрити</button>
+        </form>
+      </div>
+    </div>
+
     <ul id="students-list">
       <li class="item">Список студентів:</li>
     </ul>
@@ -67,6 +74,54 @@
         </form>
       </div>
     </div>
+
+
+    <div class="backdrop-edit is-hidden">
+      <div class="modal-1">
+        <form id="edit-student-form">
+          <h2>Редагування студента</h2>
+          <input
+            class="input"
+            type="text"
+            name="name"
+            placeholder="Ім'я"
+            required
+          />
+          <input
+            class="input"
+            type="text"
+            name="second-name"
+            placeholder="Прізвище"
+            required
+          />
+          <input
+            class="input"
+            type="number"
+            name="age"
+            placeholder="Вік"
+            required
+          />
+          <input
+            class="input"
+            type="text"
+            name="course"
+            placeholder="Курс"
+            required
+          />
+          <input
+            class="input"
+            type="text"
+            name="faculty"
+            placeholder="Факультет"
+            required
+          />
+          <button type="submit">Зберегти</button>
+          <button type="button" class="cancel-edit-modal">
+            Скасувати
+          </button>
+        </form>
+      </div>
+    </div>;
 
     <script type="module" src="./js/lesson-9.js"></script>
   </body>
