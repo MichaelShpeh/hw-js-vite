@@ -29,21 +29,27 @@ closeBtn.addEventListener("click", function () {
   backdrop.classList.add("is-hidden");
 });
 
-let dataArray = [];
+//! === Імпорт файлу students.json для створення ПОЧАТКОВОГО СПИСКУ СТУДЕНТІВ ===
+import studentsFromJSON from "../json/students.json";
+console.log("studentsFromJSON:", studentsFromJSON);
 
-if (!localStorage.getItem("students")) {
-  dataArray = [];
-  const dataJSON = JSON.stringify(dataArray);
-  localStorage.setItem("students", dataJSON);
+let dataArray = [];
+let dataJSON = "";
+
+let datalocalStorage = localStorage.getItem("students");
+console.log("datalocalStorage:", typeof datalocalStorage);
+
+if (datalocalStorage === null || datalocalStorage === "[]") {
+  dataArray = studentsFromJSON;
   renderList(dataArray);
+  dataJSON = dataArray;
+  updateLocalStorage();
+  console.log("YA PIDORAS");
 } else {
-  try {
-    const storedData = localStorage.getItem("students");
-    dataArray = JSON.parse(storedData);
-    renderList(dataArray);
-  } catch (e) {
-    console.error("Помилка парсингу localStorage:", e);
-  }
+  dataArray = JSON.parse(datalocalStorage);
+  renderList(dataArray);
+  dataJSON = dataArray;
+  updateLocalStorage();
 }
 
 //! додаємо студента
@@ -58,7 +64,7 @@ form.addEventListener("submit", function (e) {
 
     updateLocalStorage();
 
-    renderList(localStorage.getItem("students"));
+    renderList(dataArray);
 
     form.reset();
 
@@ -111,7 +117,7 @@ confirmButton.addEventListener("click", () => {
   if (deleteIndex !== null) {
     dataArray.splice(deleteIndex, 1);
     updateLocalStorage();
-    renderList(localStorage.getItem("students"));
+    renderList(dataArray);
     deleteIndex = null;
   }
   modal.classList.add("is-hidden");
@@ -151,7 +157,7 @@ list.addEventListener("click", (e) => {
 
         dataArray[editIndex] = updatedStudent;
         updateLocalStorage();
-        renderList(localStorage.getItem("students"));
+        renderList(dataArray);
       } catch (error) {
         console.error(error);
       } finally {
@@ -198,7 +204,7 @@ editForm.addEventListener("submit", (event) => {
 
     dataArray[editIndex] = updatedStudent;
     updateLocalStorage();
-    renderList(localStorage.getItem("students"));
+    renderList(dataArray);
   } catch (error) {
     console.error(error);
   } finally {
