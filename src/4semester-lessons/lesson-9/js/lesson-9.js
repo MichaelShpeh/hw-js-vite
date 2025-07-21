@@ -140,53 +140,8 @@ list.addEventListener("click", (e) => {
     const student = dataArray[index];
     editIndex = index;
 
-    editForm.elements["name"].value = student.name;
-    editForm.elements["second-name"].value = student["second-name"];
-    editForm.elements["age"].value = student.age;
-    editForm.elements["course"].value = student.course;
-    editForm.elements["faculty"].value = student.facult;
-
-    editForm.addEventListener("submit", (event) => {
-      event.preventDefault();
-      try {
-        const formData = new FormData(editForm);
-        const updatedStudent = Object.fromEntries(formData.entries());
-        updatedStudent.age = Number(updatedStudent.age);
-
-        console.log("updatedStudent:", updatedStudent);
-
-        dataArray[editIndex] = updatedStudent;
-        updateLocalStorage();
-        renderList(dataArray);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        editForm.reset();
-        editBackdrop.classList.add("is-hidden");
-        editIndex = null;
-      }
-    });
-
-    editForm
-      .querySelector(".cancel-edit-modal")
-      .addEventListener("click", () => {
-        form.id = "student-info-form";
-        // editForm.remove();
-        editBackdrop.classList.add("is-hidden");
-      });
-  }
-});
-
-list.addEventListener("click", (e) => {
-  if (e.target.classList.contains("edit-btn")) {
-    const index = parseInt(e.target.dataset.index, 10);
-    if (isNaN(index) || !dataArray[index]) return;
-
-    const student = dataArray[index];
-    editIndex = index;
-
-    editForm.elements["name"].value = student.name;
-    editForm.elements["second-name"].value = student["second-name"];
+    editForm.elements["firstName"].value = student.firstName;
+    editForm.elements["lastName"].value = student.lastName;
     editForm.elements["age"].value = student.age;
     editForm.elements["course"].value = student.course;
     editForm.elements["faculty"].value = student.faculty;
@@ -195,16 +150,20 @@ list.addEventListener("click", (e) => {
   }
 });
 
-//! підтвердження змінення
 editForm.addEventListener("submit", (event) => {
   event.preventDefault();
   try {
     const formData = new FormData(editForm);
     const updatedStudent = Object.fromEntries(formData.entries());
+    updatedStudent.age = Number(updatedStudent.age);
 
-    dataArray[editIndex] = updatedStudent;
-    updateLocalStorage();
-    renderList(dataArray);
+    console.log("updatedStudent:", updatedStudent);
+
+    if (editIndex !== null) {
+      dataArray[editIndex] = updatedStudent;
+      updateLocalStorage();
+      renderList(dataArray);
+    }
   } catch (error) {
     console.error(error);
   } finally {
@@ -212,4 +171,10 @@ editForm.addEventListener("submit", (event) => {
     editBackdrop.classList.add("is-hidden");
     editIndex = null;
   }
+});
+
+editForm.querySelector(".cancel-edit-modal").addEventListener("click", () => {
+  editForm.reset();
+  editBackdrop.classList.add("is-hidden");
+  editIndex = null;
 });
