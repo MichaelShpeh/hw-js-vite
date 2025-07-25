@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>hw-11</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./css/reset.css" />
+    <link rel="stylesheet" href="./css/styles.css" />
+  </head>
+  <body>
+    <form id="form">
+      <h1 class="main-title">Таймер зворотнього відліку</h1>
+      <p id="shownTime">00:00:00</p>
+      <div class="inputs">
+        <input id="hours" type="number" placeholder="00" min="0" max="60" />
+        <input id="minutes" type="number" placeholder="00" min="0" max="60" />
+        <input id="seconds" type="number" placeholder="00" min="0" max="60" />
+      </div>
+      <div class="buttons">
+        <button type="submit" id="submitBtn">Почати</button>
+        <button type="reset" id="cancelBtn">Скинути</button>
+      </div>
+      <!-- <p id=""></p> -->
+    </form>
+
+    <script type="module" src="./js/lesson-11.js"></script>
+  </body>
+</html>
