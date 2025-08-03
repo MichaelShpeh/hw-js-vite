@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>hw-12</title>
+    <link rel="stylesheet" href="./css/reset.css" />
+    <link rel="stylesheet" href="./css/lesson-12.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="outline">
+    <form class="form">
+      <label class="input-label">
+        Введіть майбутню дату<i>(більше від сьогоднішньої дати на 1 день)</i> :
+        <input id="target-date" type="datetime-local"/>
+      </label>
+      <button id="confirm-button">Start</button>
+    </form>
+    <div class="timer" id="timer-1">
+      <div class="field">
+        <span class="label">Days</span>
+        <span class="value" data-value="days">--</span>
+      </div>
+      <div class="field">
+        <span class="label">Hours</span>
+        <span class="value" data-value="hours">--</span>
+      </div>
+      <div class="field">
+        <span class="label">Minutes</span>
+        <span class="value" data-value="mins">--</span>
+      </div>
+      <div class="field">
+        <span class="label">Seconds</span>
+        <span class="value" data-value="secs">--</span>
+      </div>
+    </div>
+</div>
+
+    <script type="module" src="./js/lesson-12.js"></script>
+  </body>
+</html>

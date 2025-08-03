@@ -44,7 +44,6 @@ if (datalocalStorage === null || datalocalStorage === "[]") {
   renderList(dataArray);
   dataJSON = dataArray;
   updateLocalStorage();
-  console.log("YA PIDORAS");
 } else {
   dataArray = JSON.parse(datalocalStorage);
   renderList(dataArray);
