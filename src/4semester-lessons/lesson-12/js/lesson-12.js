@@ -14,8 +14,10 @@ Btn.addEventListener("click", (event) => {
   const targetDate = new Date(value);
   const now = new Date();
 
-  if (targetDate <= now) {
-    alert("Будь ласка, вибери дату в майбутньому!");
+    const oneDay = 24 * 60 * 60 * 1000;
+    
+  if (targetDate.getTime() - now.getTime() < oneDay) {
+    alert("Дата не повина бути менше 1 дня!");
     return;
   }
 
