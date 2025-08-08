@@ -1,0 +1,28 @@
+body {
+    padding-top: 200px;
+}
+
+.main-div {
+    width: 1000px;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.main-div > div {
+    width: 150px;
+    height: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+div > button {
+    padding: 5px;
+    font-size: 1.1rem;
+    background: #48376a;
+    border-radius: 4px;
+}
