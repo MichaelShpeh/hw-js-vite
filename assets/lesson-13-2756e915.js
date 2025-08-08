@@ -1,0 +1,1 @@
+import"./modulepreload-polyfill-3cfb730f.js";const r=e=>(console.log(`Fetching data-1 for ${e}:`),new Promise((o,c)=>{setTimeout(()=>{o("✅ success-1")},2e3)}));r("Mango").then(e=>{console.log("user_onFetchSuccess1:",e)}).catch(e=>{console.error("error_onFetchError1:",e)});
