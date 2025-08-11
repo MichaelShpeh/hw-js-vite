@@ -1,3 +1,7 @@
+const button1 = document.getElementById("script1");
+const button2 = document.getElementById("script2");
+const button3 = document.getElementById("script3");
+
 function runScript1() {
   const delay = (ms) => {
     return new Promise((resolve) => {
@@ -99,22 +103,6 @@ function runScript3() {
   makeTransaction({ id: 73, amount: 100 }).then(logSuccess).catch(logError);
 }
 
-document.querySelectorAll("button").forEach((btn) => {
-  btn.addEventListener("click", () => {
-    const scriptName = btn.getAttribute("data-script");
-
-    switch (scriptName) {
-      case "script1.js":
-        runScript1();
-        break;
-      case "script2.js":
-        runScript2();
-        break;
-      case "script3.js":
-        runScript3();
-        break;
-      default:
-        console.warn("Невідомий скрипт:", scriptName);
-    }
-  });
-});
+button1.addEventListener("click", runScript1);
+button2.addEventListener("click", runScript2);
+button3.addEventListener("click", runScript3);
