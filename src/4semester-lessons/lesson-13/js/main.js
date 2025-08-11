@@ -1,12 +1,15 @@
 document.querySelectorAll("button").forEach((btn) => {
-  btn.addEventListener("click", async () => {
+  btn.addEventListener("click", () => {
     const scriptName = btn.getAttribute("data-script");
 
-    //! Динамічний імпорт з папки js
-    const module = await import(`./${scriptName}`);
-    alert(`${scriptName} завантажено`);
-
-    //! Викликаємо експортовану функцію, якщо є
-    if (module.run) module.run();
+    // Динамічний імпорт повертає проміс
+    import(`./${scriptName}`)
+      .then((module) => {
+        alert(`${scriptName} завантажено`);
+        if (module.run) module.run();
+      })
+      .catch((error) => {
+        console.error(`Помилка при завантаженні модуля ${scriptName}:`, error);
+      });
   });
 });
