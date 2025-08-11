@@ -1,0 +1,1 @@
+import"./modulepreload-polyfill-3cfb730f.js";const m=3e3,s=(e,o)=>new Promise((r,i)=>{setTimeout(()=>{o<=m?r(e):i("❌ Error!")},o)}),l=s("promiseA value",3e3),t=s("promiseB value",1e3);Promise.all([l,t]).then(e=>console.log("✅ Promise.all([promiseA, promiseB]).then(value):",e)).catch(e=>console.log(e));
