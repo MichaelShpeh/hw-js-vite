@@ -23,6 +23,7 @@ function runScript2() {
     { name: "Lux", active: false },
   ];
 
+    
   const toggleUserState = (allUsers, userName) => {
     return new Promise((resolve) => {
       setTimeout(() => {
