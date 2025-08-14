@@ -1,0 +1,9 @@
+body {
+    padding-top: 300px;
+}
+
+.title {
+    width: 800px;
+    height: 100px;
+    margin: 0 auto;
+}
