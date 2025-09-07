@@ -5,7 +5,8 @@ const input = document.querySelector(".input");
 fetchButton.addEventListener("click", fetchNews);
 
 function fetchNews() {
-  const count = input.value;
+    const count = input.value;
+    if (!count) return;
 
   fetchData(count)
     .then((articles) => renderNews(articles))
@@ -17,12 +18,21 @@ function fetchData(count) {
 
   return fetch(url)
     .then((response) => {
+      if (response.status === 426) {
+        alert(
+          "Отакої, відправити запит можна тільки з локального хоста (помилка 426)"
+        );
+      }
+
       if (!response.ok) {
         throw new Error(response.status);
       }
       return response.json();
     })
-    .then((data) => data.articles);
+    .then((data) => data.articles)
+    .catch((error) => {
+      alert("Помилка при завантаженні новин: " + error.message);
+    });
 }
 
 function renderNews(articles) {
