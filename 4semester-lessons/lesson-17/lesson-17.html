@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>hw-17</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    
+    
+    <script type="module" crossorigin src="/hw-js-vite/assets/lesson-17-fe3cd2d1.js"></script>
+    <link rel="modulepreload" crossorigin href="/hw-js-vite/assets/modulepreload-polyfill-3cfb730f.js">
+    <link rel="stylesheet" href="/hw-js-vite/assets/lesson-17-9b300445.css">
+  </head>
+  <body>
+    <div class="section">
+    <h2 class="main-title">Введіть сторінку та кількість новин на сторінці</h2>
+  </div>
+    <div class="section main">
+        <h3 class="num-of-news">Знайдено: <span id="news-num">N</span> новин</h3>
+      <label for="per-page">Введіть кількість новин на сторінку</label>
+      <input class="per-page" type="number" min="1" max="10" value="1" required/>
+      <label for="page">Введіть сторінку</label>
+      <input class="page" type="number" min="1" max="100" value="1" />
+      <button id="fetch">Отримати N новин</button>
+    </div>
+    <ul class="data-list"></ul>
+
+    <div class="pages">
+    <button class="prev-button">previous</button>
+    <p>сторніка: <span id="page-num">...</span></p>
+    <button class="next-button">next</button>
+</div>
+
+    
+  </body>
+</html>
