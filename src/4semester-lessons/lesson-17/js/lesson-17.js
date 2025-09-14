@@ -6,105 +6,89 @@ const prevButton = document.querySelector(".prev-button");
 const nextButton = document.querySelector(".next-button");
 const newsSpan = document.getElementById("news-num");
 const pageNum = document.getElementById("page-num");
+const totalPagesSpan = document.getElementById("total-pages");
+
+let totalResults = 0;
+let totalPages = 1;
+let page = 1;
+
+function computePerPage() {
+  return Number(perPageInput.value) || 5;
+}
 
 function updatePageNum() {
   pageNum.textContent = page;
+  const perPage = computePerPage();
+  const capped = Math.min(totalResults, 100);
+  totalPages = Math.max(1, Math.ceil(capped / perPage));
+
+  totalPagesSpan.textContent = totalPages;
+  pageInput.min = 1;
+  pageInput.max = totalPages;
+
+  prevButton.disabled = page <= 1;
+  pageInput.disabled = page >= totalPages;
 }
-
-let totalResults = 0;
-let page = 1;
-
-updatePageNum();
 
 fetchButton.addEventListener("click", fetchPosts);
 prevButton.addEventListener("click", fetchPostsPrev);
 nextButton.addEventListener("click", fetchPostsNext);
 
 function fetchPosts() {
-  page = Number(pageInput.value);
+  page = Number(pageInput.value) || 1;
 
   fetchData()
     .then((data) => {
-      totalResults = data.totalResults;
-      renderPosts(data.articles);
+      totalResults = data.totalResults || 0;
+      renderPosts(data.articles || []);
       newsSpan.textContent = totalResults;
+      updatePageNum();
     })
-    .catch((error) => console.log("error:", error));
-
-  updatePageNum();
+    .catch((error) => {
+      console.log("error:", error);
+      updatePageNum();
+    });
 }
+
 function fetchData() {
   const baseUrl = "https://newsapi.org/v2/";
   const endPoint = "top-headlines?country=us&";
-  const perPage = perPageInput.value;
-  page = Number(pageInput.value);
+  const perPage = computePerPage();
   const apiKey = "apiKey=56b82358896449f994f5fabbc62ff5f5";
 
-
-  const params = new URLSearchParams({
-    _limit: perPage,
-    _page: page,
-  });
-  return fetch(
-    // `https://jsonplaceholder.typicode.com/posts?_limit=${perPageInput.value}&_page=${pageInput.value}`
-    `${baseUrl}${endPoint}pageSize=${perPage}&page=${page}&${apiKey}`
-  ).then((response) => {
-    if (response.status === 426) {
-      alert(
-        "Отакої, відправити запит можна тільки з локального хоста (помилка 426)"
-      );
-    }
-    if (!response.ok) {
-      throw new Error(response.status);
-    }
-    return response.json();
-  });
+  return fetch(`${baseUrl}${endPoint}pageSize=${perPage}&page=${page}&${apiKey}`)
+    .then((response) => {
+      if (!response.ok) throw new Error(response.status);
+      return response.json();
+    });
 }
 
 function renderPosts(posts) {
-  console.log(posts);
   const markUp = posts
     .map((post) => {
       return `
         <li>
-        <h2>Title: ${post.title}</h2>
-        <p>ID: ${post.id}</p>
-        <p>body: ${post.body}</p>
-        <a href="${post.url}" target="_blank">Читати далі</a>
+          <h2>Title: ${post.title}</h2>
+          <p>${post.description || "Без опису"}</p>
+          <a href="${post.url}" target="_blank">Читати далі</a>
         </li>
-        `;
+      `;
     })
     .join("");
 
-  list.innerHTML = markUp;
+  list.innerHTML = markUp || "<li>Новин немає</li>";
 }
 
 function fetchPostsPrev() {
-  if (page > 1) {
-    page -= 1;
-    pageInput.value = page;
-    fetchData()
-      .then((data) => {
-        renderPosts(data.articles);
-        newsSpan.textContent = totalResults;
-      })
-      .catch((error) => console.log("error:", error));
-  }
-
-  updatePageNum();
+  if (page <= 1) return;
+  page--;
+  pageInput.value = page;
+  fetchPosts();
 }
 
 function fetchPostsNext() {
-  if (page >= 100) return;
-
-  page += 1;
+  if (page >= totalPages) return;
+  page++;
   pageInput.value = page;
-  fetchData()
-    .then((data) => {
-      renderPosts(data.articles);
-      newsSpan.textContent = totalResults;
-    })
-    .catch((error) => console.log("error:", error));
-
-  updatePageNum();
+  fetchPosts();
 }
