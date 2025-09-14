@@ -1,0 +1,7 @@
+import"./modulepreload-polyfill-3cfb730f.js";const d=document.getElementById("fetch"),m=document.querySelector(".data-list"),f=document.querySelector(".per-page"),n=document.querySelector(".page"),i=document.querySelector(".prev-button"),g=document.querySelector(".next-button"),h=document.getElementById("news-num"),y=document.getElementById("page-num"),P=document.getElementById("total-pages");let u=0,a=1,t=1;function p(){return Number(f.value)||5}function l(){y.textContent=t;const e=p(),o=Math.min(u,100);a=Math.max(1,Math.ceil(o/e)),P.textContent=a,n.min=1,n.max=a,i.disabled=t<=1,n.disabled=t>=a}d.addEventListener("click",s);i.addEventListener("click",x);g.addEventListener("click",E);function s(){t=Number(n.value)||1,b().then(e=>{u=e.totalResults||0,v(e.articles||[]),h.textContent=u,l()}).catch(e=>{console.log("error:",e),l()})}function b(){const e="https://newsapi.org/v2/",o="top-headlines?country=us&",c=p();return fetch(`${e}${o}pageSize=${c}&page=${t}&apiKey=56b82358896449f994f5fabbc62ff5f5`).then(r=>{if(!r.ok)throw new Error(r.status);return r.json()})}function v(e){const o=e.map(c=>`
+        <li>
+          <h2>Title: ${c.title}</h2>
+          <p>${c.description||"Без опису"}</p>
+          <a href="${c.url}" target="_blank">Читати далі</a>
+        </li>
+      `).join("");m.innerHTML=o||"<li>Новин немає</li>"}function x(){t<=1||(t--,n.value=t,s())}function E(){t>=a||(t++,n.value=t,s())}
