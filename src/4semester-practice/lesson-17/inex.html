@@ -4,18 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="./css/styles.css">
     <link rel="stylesheet" href="./css/reset.css">
 </head>
 <body>
-    <div class="section">
+    <div class="section inputs">
     <input class="per-page" type="number" min="1" max="10" value="1" required>
     <input class="page" type="number" min="1" max="100" value="1">
-    <button id="fetch">Отримати N новин</button>
+    <!-- <button id="fetch">Отримати N новин</button> -->
 </div>
     <ul class="data-list"></ul>
 
-    <button class="prev-button">previous</button>
-    <button class="next-button">next</button>
+    <div class="section">
+    <button id="fetch">Завантажити</button>
+</div>
+
+    <!-- <button class="prev-button">previous</button>
+    <button class="next-button">next</button> -->
 
     <script type="module" src="./js/lesson-17.js"></script>
 </body>
