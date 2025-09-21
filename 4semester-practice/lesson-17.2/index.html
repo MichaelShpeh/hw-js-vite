@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>practise</title>
+    
+    
+  <script type="module" crossorigin src="/hw-js-vite/assets/index-b1bfa930.js"></script>
+  <link rel="modulepreload" crossorigin href="/hw-js-vite/assets/modulepreload-polyfill-3cfb730f.js">
+  <link rel="stylesheet" href="/hw-js-vite/assets/index-51741e07.css">
+</head>
+<body>
+    <h1 class="title-lesson">Урок-17(41-1)_JS.“Пагінація. Pokémon API. Resource Lists/Pagination”</h1>
+    
+    <div class="settings-box">
+        <div class="input-box">
+            <label>
+                Введіть число елементів (N) на сторінці (від 1 до 20):
+                <input id="per-page" type="number" min="1" max="20" value="5">
+            </label>
+            <label>
+                Введіть кількість елементів після якого показуємо наступні N элементів (<b>offset</b>) (від 0 до 366):
+                <input id="element-after-which" type="number" min="0" max="366" value="10">
+            </label>
+        </div>
+        <button type="button" class="fetch-btn">
+            Fetch elements
+        </button>
+    </div>
+    
+    <p class="number-elements-info">Кількість елементів у колекції: <span class="number-elements">*</p>
+    <p class="elements-info">Сторінка № <span class="page">*</span> з <span class="number-of-pages">*</span></p>
+    <ul class="elements-list">elements...</ul>
+    
+    
+    <div class="pagination-arrow-buttons">
+        <button type="button" id="prev">
+            ⇐ Prev
+        </button>
+        <button type="button" id="next">
+            Next ⇒
+        </button>
+    </div>
+
+    
+</body>
+</html>
