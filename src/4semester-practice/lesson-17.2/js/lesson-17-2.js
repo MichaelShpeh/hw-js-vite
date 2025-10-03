@@ -14,7 +14,7 @@ const fetchElementsNextBtn = document.getElementById("next");
 
 
 //! Кількість елементів N у групі (на сторінці):
-let perPage;
+// let perPage;
 
 //! Кількість елементів після якого показуємо наступні N элементів:
 let elementAfterWhich;
@@ -38,6 +38,11 @@ let urlNext = "";
 //! Лічильник для гортання сторінок
 let countPage = 0;
 
+let previousUrl;
+let nextUrl;
+
+let perPage = Number(elementsPerPageInput.value);
+
 fetchElementsBtn.addEventListener("click", fetchElements);
 fetchElementsPrevBtn.addEventListener("click", fetchElementsPrev);
 fetchElementsNextBtn.addEventListener("click", fetchElementsNext);
@@ -49,6 +54,14 @@ function fetchElements() {
             renderposts(posts);
         })
         .catch((error) => console.log("error:", error));
+    
+    if (elementAfterWhichInput.value !== "") {
+        elementAfterWhich = Number(elementAfterWhichInput.value);
+        page = Math.floor(elementAfterWhich / perPage) + 1;
+    } else {
+        elementAfterWhich = 0;
+        page = 1;
+        }
 }
 
 //! Функція, яка робить запит на сервер
@@ -56,7 +69,7 @@ function fetchData() {
     const baseUrl = "https://pokeapi.co/api/v2/";
     const endPoint = "pokemon";
 
-    const perPage = Number(elementsPerPageInput.value);       
+    
 
     if (elementAfterWhichInput.value !== "") {
         elementAfterWhich = Number(elementAfterWhichInput.value);
@@ -71,16 +84,15 @@ function fetchData() {
 
     return fetch(`${baseUrl}${endPoint}?${params}`)
         .then((response) => {
-            
+
             if (!response.ok) {
                 throw new Error(response.status);
             }
-            console.log(response.json());
             return response.json();
         });
 }
 
-    
+
 
 
 //! Функція для "Рендеру" постів
@@ -108,13 +120,26 @@ function renderposts(data) {
     infoNumberElements.textContent = numberElements;
     infoPage.textContent = page;
     infoNumberOfPages.textContent = numberPages;
+
+    previousUrl = data.previous;
+    nextUrl = data.next;
 }
 
 //! Код кнопки назад
 function fetchElementsPrev() {
-    
+    if (!previousUrl) return;
+    page--
+    fetch(previousUrl)
+        .then((response) => response.json())
+        .then((data) => renderposts(data))
+        .catch((error) => console.error(error));
 }
 
 function fetchElementsNext() {
-    
+    if (!nextUrl) return;
+    page++
+    fetch(nextUrl)
+        .then((response) => response.json())
+        .then((data) => renderposts(data))
+        .catch((error) => console.error(error));
 }
