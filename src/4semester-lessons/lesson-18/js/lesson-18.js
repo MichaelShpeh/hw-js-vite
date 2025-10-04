@@ -20,34 +20,55 @@ const closeBtn = document.querySelector(".formCloseBtn");
 const editBackdrop = document.querySelector(".backdrop-edit");
 const editForm = document.getElementById("edit-student-form");
 
+const fetchButton = document.getElementById("fetch");
+const perPageInput = document.querySelector(".per-page");
+const pageInput = document.querySelector(".page");
+const prevButton = document.querySelector(".prev-button");
+const nextButton = document.querySelector(".next-button");
+const newsSpan = document.getElementById("news-num");
+const pageNum = document.getElementById("page-num");
+const totalPagesSpan = document.getElementById("total-pages");
+
 let dataArray = [];
-const API_URL = "http://localhost:3000/articles";
+const baseUrl = "http://localhost:3000/";
+const endPoint = "articles?";
+// const perPage = computePerPage();
+const perPage = perPageInput.value;
 
 //! завантажуємо дані з сервера
-fetch(API_URL)
-    .then(function (response) {
-        if (!response.ok) {
-            throw new Error("Помилка при завантаженні даних");
-        }
-        return response.json();
-    })
-    .then(function (data) {
-        const articles = Array.isArray(data) ? data : data.articles;
 
-        dataArray = articles.map(function (article, index) {
-            return {
+function fetchPosts() {
+    fetch(`${baseUrl}${endPoint}_page=${page}&limit=${perPage}`)
+        .then(function (response) {
+            if (!response.ok) {
+                throw new Error("Помилка при завантаженні даних");
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Тепер беремо масив із data.data
+            const articles = Array.isArray(data.data) ? data.data : [];
+
+            dataArray = articles.map((article, index) => ({
                 _index: index,
                 author: article.author || "Невідомо",
                 title: article.title || "Без назви",
                 description: article.description || "Немає опису",
                 content: article.content || "—",
-            };
+            }));
+
+            renderList(dataArray);
+
+            // Можеш оновити пагінацію
+            totalPages = data.pages;
+            totalPagesSpan.textContent = totalPages;
+            pageNum.textContent = page;
+        })
+        .catch(function (error) {
+            console.error("Помилка завантаження:", error);
         });
-        renderList(dataArray);
-    })
-    .catch(function (error) {
-        console.error("Помилка завантаження:", error);
-    });
+    ;
+}
 
 //! відкриття модалки для додавання
 btnOpn.addEventListener("click", function () {
@@ -160,20 +181,9 @@ editForm.querySelector(".cancel-edit-modal").addEventListener("click", () => {
     editIndex = null;
 });
 
-
-
-// const fetchButton = document.getElementById("fetch");
-// const perPageInput = document.querySelector(".per-page");
-// const pageInput = document.querySelector(".page");
-// const prevButton = document.querySelector(".prev-button");
-// const nextButton = document.querySelector(".next-button");
-// const newsSpan = document.getElementById("news-num");
-// const pageNum = document.getElementById("page-num");
-// const totalPagesSpan = document.getElementById("total-pages");
-
-// let totalResults = 0;
-// let totalPages = 1;
-// let page = 1;
+let totalResults = 0;
+let totalPages = 1;
+let page = 1;
 
 // function computePerPage() {
 //     return Number(perPageInput.value) || 5;
@@ -193,65 +203,20 @@ editForm.querySelector(".cancel-edit-modal").addEventListener("click", () => {
 //     pageInput.disabled = page >= totalPages;
 // }
 
-// fetchButton.addEventListener("click", fetchPosts);
-// prevButton.addEventListener("click", fetchPostsPrev);
-// nextButton.addEventListener("click", fetchPostsNext);
+fetchButton.addEventListener("click", fetchPosts);
+prevButton.addEventListener("click", fetchPostsPrev);
+nextButton.addEventListener("click", fetchPostsNext);
 
-// function fetchPosts() {
-//     page = Number(pageInput.value) || 1;
+function fetchPostsPrev() {
+    if (page <= 1) return;
+    page--;
+    pageInput.value = page;
+    fetchPosts();
+}
 
-//     fetchData()
-//         .then((data) => {
-//             totalResults = data.totalResults || 0;
-//             renderPosts(data.articles || []);
-//             newsSpan.textContent = totalResults;
-//             updatePageNum();
-//         })
-//         .catch((error) => {
-//             console.log("error:", error);
-//             updatePageNum();
-//         });
-// }
-
-// function fetchData() {
-//     const baseUrl = "https://newsapi.org/v2/";
-//     const endPoint = "top-headlines?country=us&";
-//     const perPage = computePerPage();
-//     const apiKey = "apiKey=56b82358896449f994f5fabbc62ff5f5";
-
-//     return fetch(`${baseUrl}${endPoint}pageSize=${perPage}&page=${page}&${apiKey}`)
-//         .then((response) => {
-//             if (!response.ok) throw new Error(response.status);
-//             return response.json();
-//         });
-// }
-
-// function renderPosts(posts) {
-//     const markUp = posts
-//         .map((post) => {
-//             return `
-//         <li>
-//           <h2>Title: ${post.title}</h2>
-//           <p>${post.description || "Без опису"}</p>
-//           <a href="${post.url}" target="_blank">Читати далі</a>
-//         </li>
-//       `;
-//         })
-//         .join("");
-
-//     list.innerHTML = markUp || "<li>Новин немає</li>";
-// }
-
-// function fetchPostsPrev() {
-//     if (page <= 1) return;
-//     page--;
-//     pageInput.value = page;
-//     fetchPosts();
-// }
-
-// function fetchPostsNext() {
-//     if (page >= totalPages) return;
-//     page++;
-//     pageInput.value = page;
-//     fetchPosts();
-// }
+function fetchPostsNext() {
+    if (page >= totalPages) return;
+    page++;
+    pageInput.value = page;
+    fetchPosts();
+}
