@@ -1,24 +1,24 @@
 //! імпортування бібліотеки HandeBars
 import Handlebars from "handlebars";
-import news from "../template-student-data.hbs";
+import news from "../template-news-data.hbs";
 
 Handlebars.registerHelper("addOne", function (index) {
     return index + 1;
 });
 
-const studentTemplate = Handlebars.compile(news);
+const newsTemplate = Handlebars.compile(news);
 
 //! знаходимо всі елементи з розмітки
 const modal = document.querySelector(".backdrop");
 const confirmButton = document.querySelector(".confirm-button");
 const deleteButton = document.querySelector(".delete-button");
-const form = document.getElementById("student-info-form");
+const form = document.getElementById("news-info-form");
 const list = document.querySelector(".news-list");
 const btnOpn = document.querySelector(".buttonOpn");
 const backdrop = document.querySelector(".backdrop-1");
 const closeBtn = document.querySelector(".formCloseBtn");
 const editBackdrop = document.querySelector(".backdrop-edit");
-const editForm = document.getElementById("edit-student-form");
+const editForm = document.getElementById("edit-news-form");
 
 const fetchButton = document.getElementById("fetch");
 const perPageInput = document.querySelector(".per-page");
@@ -29,16 +29,27 @@ const newsSpan = document.getElementById("news-num");
 const pageNum = document.getElementById("page-num");
 const totalPagesSpan = document.getElementById("total-pages");
 
+let page = 1;
 let dataArray = [];
 const baseUrl = "http://localhost:3000/";
 const endPoint = "articles?";
-// const perPage = computePerPage();
-const perPage = perPageInput.value;
+let perPage;
+
+function getPerPage() {
+    return perPage = perPageInput.value || 5;
+}
+
+function getPage() {
+    return Number(pageInput.value);
+}
 
 //! завантажуємо дані з сервера
-
 function fetchPosts() {
-    fetch(`${baseUrl}${endPoint}_page=${page}&limit=${perPage}`)
+    const perPage = getPerPage();
+    const currentPage = getPage();
+
+    console.log(currentPage)
+    fetch(`${baseUrl}${endPoint}_page=${currentPage}&_limit=${perPage}`)
         .then(function (response) {
             if (!response.ok) {
                 throw new Error("Помилка при завантаженні даних");
@@ -46,9 +57,8 @@ function fetchPosts() {
             return response.json();
         })
         .then(data => {
-            // Тепер беремо масив із data.data
-            const articles = Array.isArray(data.data) ? data.data : [];
-
+            console.log(data)
+            const articles = Array.isArray(data) ? data : [];
             dataArray = articles.map((article, index) => ({
                 _index: index,
                 author: article.author || "Невідомо",
@@ -58,17 +68,24 @@ function fetchPosts() {
             }));
 
             renderList(dataArray);
+            // totalResults = data.totalResults
+            const perPage = getPerPage();
+            // totalPages = Math.ceil(totalResults / perPage);
+            // totalPagesSpan.textContent = totalPages;
+            pageNum.textContent = currentPage;
+            // newsSpan.textContent = totalResults;
 
-            // Можеш оновити пагінацію
-            totalPages = data.pages;
-            totalPagesSpan.textContent = totalPages;
-            pageNum.textContent = page;
+
+            console.log(getPerPage());
+            console.log(`${baseUrl}${endPoint}_page=${page}&_limit=${perPage}`)
         })
         .catch(function (error) {
             console.error("Помилка завантаження:", error);
         });
     ;
 }
+console.log(`${baseUrl}${endPoint}_page=${page}&_limit=${perPage}`)
+
 
 //! відкриття модалки для додавання
 btnOpn.addEventListener("click", function () {
@@ -105,7 +122,7 @@ function renderList(data) {
 
     data.forEach((item, index) => {
         item._index = index;
-        const markup = studentTemplate(item);
+        const markup = newsTemplate(item);
         list.insertAdjacentHTML("beforeend", markup);
     });
 }
@@ -144,13 +161,13 @@ list.addEventListener("click", (e) => {
         const index = parseInt(e.target.dataset.index, 10);
         if (isNaN(index) || !dataArray[index]) return;
 
-        const student = dataArray[index];
+        const newss = dataArray[index];
         editIndex = index;
 
-        editForm.elements["author"].value = student.author;
-        editForm.elements["title"].value = student.title;
-        editForm.elements["description"].value = student.description;
-        editForm.elements["content"].value = student.content;
+        editForm.elements["author"].value = newss.author;
+        editForm.elements["title"].value = newss.title;
+        editForm.elements["description"].value = newss.description;
+        editForm.elements["content"].value = newss.content;
 
         editBackdrop.classList.remove("is-hidden");
     }
@@ -160,10 +177,10 @@ editForm.addEventListener("submit", (event) => {
     event.preventDefault();
     try {
         const formData = new FormData(editForm);
-        const updatedStudent = Object.fromEntries(formData.entries());
+        const updatedNews = Object.fromEntries(formData.entries());
 
         if (editIndex !== null) {
-            dataArray[editIndex] = updatedStudent;
+            dataArray[editIndex] = updatedNews;
             renderList(dataArray);
         }
     } catch (error) {
@@ -183,7 +200,6 @@ editForm.querySelector(".cancel-edit-modal").addEventListener("click", () => {
 
 let totalResults = 0;
 let totalPages = 1;
-let page = 1;
 
 // function computePerPage() {
 //     return Number(perPageInput.value) || 5;
