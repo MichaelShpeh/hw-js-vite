@@ -46,10 +46,8 @@ function getPage() {
 //! завантажуємо дані з сервера
 function fetchPosts() {
     const perPage = getPerPage();
-    const currentPage = getPage();
-
-    console.log(currentPage)
-    fetch(`${baseUrl}${endPoint}_page=${currentPage}&_limit=${perPage}`)
+    page = getPage();
+    fetch(`${baseUrl}${endPoint}_page=${page}&_limit=${perPage}`)
         .then(function (response) {
             if (!response.ok) {
                 throw new Error("Помилка при завантаженні даних");
@@ -68,12 +66,13 @@ function fetchPosts() {
             }));
 
             renderList(dataArray);
-            // totalResults = data.totalResults
+
+            totalResults = data.totalResults || 0;
             const perPage = getPerPage();
-            // totalPages = Math.ceil(totalResults / perPage);
-            // totalPagesSpan.textContent = totalPages;
-            pageNum.textContent = currentPage;
-            // newsSpan.textContent = totalResults;
+            totalPages = Math.ceil(totalResults / perPage);
+            totalPagesSpan.textContent = totalPages;
+            pageNum.textContent = page;
+            newsSpan.textContent = totalResults;
 
 
             console.log(getPerPage());
