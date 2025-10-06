@@ -47,7 +47,7 @@ function getPage() {
 function fetchPosts() {
     const perPage = getPerPage();
     page = getPage();
-    fetch(`${baseUrl}${endPoint}_page=${page}&_limit=${perPage}`)
+    fetch(`${baseUrl}${endPoint}_page=${page}&_per_page=${perPage}`)
         .then(function (response) {
             if (!response.ok) {
                 throw new Error("Помилка при завантаженні даних");
@@ -56,9 +56,11 @@ function fetchPosts() {
         })
         .then(data => {
             console.log(data)
-            const articles = Array.isArray(data) ? data : [];
+            const articles = Array.isArray(data.data) ? data.data : [];
+
             dataArray = articles.map((article, index) => ({
                 _index: index,
+                id: article.id,
                 author: article.author || "Невідомо",
                 title: article.title || "Без назви",
                 description: article.description || "Немає опису",
@@ -67,7 +69,7 @@ function fetchPosts() {
 
             renderList(dataArray);
 
-            totalResults = data.totalResults || 0;
+            totalResults = data.items || 0;
             const perPage = getPerPage();
             totalPages = Math.ceil(totalResults / perPage);
             totalPagesSpan.textContent = totalPages;
@@ -76,14 +78,12 @@ function fetchPosts() {
 
 
             console.log(getPerPage());
-            console.log(`${baseUrl}${endPoint}_page=${page}&_limit=${perPage}`)
+            console.log(`${baseUrl}${endPoint}_page=${page}&_per_page=${perPage}`)
         })
         .catch(function (error) {
             console.error("Помилка завантаження:", error);
         });
-    ;
 }
-console.log(`${baseUrl}${endPoint}_page=${page}&_limit=${perPage}`)
 
 
 //! відкриття модалки для додавання
@@ -95,7 +95,7 @@ closeBtn.addEventListener("click", function () {
     backdrop.classList.add("is-hidden");
 });
 
-//! додаємо статтю/студента вручну
+//! додаємо статтю/новину вручну
 form.addEventListener("submit", function (e) {
     e.preventDefault();
 
@@ -103,15 +103,41 @@ form.addEventListener("submit", function (e) {
         const formData = new FormData(form);
         const data = Object.fromEntries(formData.entries());
 
-        dataArray.push(data);
+        fetch("http://localhost:3000/articles")
+            .then(response => response.json())
+            .then(articles => {
+                const lastItem = articles[articles.length - 1];
+                console.log("Останній елемент:", lastItem);
+                const lastId = lastItem ? Number(lastItem.id) : 0;
+                data.id = lastId + 1;
 
-        updateLocalStorage();
-        renderList(dataArray);
+                return fetch(`${baseUrl}${endPoint}`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(data),
+                });
+            })
+            .then(response => {
+                if (!response.ok) throw new Error("Помилка при надсиланні даних на сервер");
+                return response.json();
+            })
+            .then(newItem => {
+                console.log("Успішно створена новина на сервер:", newItem);
 
-        form.reset();
-        backdrop.classList.add("is-hidden");
+                dataArray.push(newItem);
+                renderList(dataArray);
+
+                form.reset();
+                backdrop.classList.add("is-hidden");
+            })
+            .catch(error => {
+                console.error("Помилка:", error);
+            });
+
     } catch (error) {
-        console.error(error);
+        console.error("Помилка:", error);
     }
 });
 
@@ -139,12 +165,47 @@ list.addEventListener("click", function (e) {
 });
 
 confirmButton.addEventListener("click", () => {
-    if (deleteIndex !== null) {
+    if (deleteIndex === null) return;
+
+    const article = dataArray[deleteIndex];
+    const id = article.id; // Беремо справжній id із масиву
+
+    if (!id) {
+        console.error("❌ Помилка: елемент не має id, тому його не можна видалити із сервера.");
+        // все одно видаляємо з масиву локально
         dataArray.splice(deleteIndex, 1);
         renderList(dataArray);
+        modal.classList.add("is-hidden");
         deleteIndex = null;
+        return;
     }
-    modal.classList.add("is-hidden");
+
+    const url = `${baseUrl}articles/${id}`;
+
+    const options = {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json; charset=UTF-8",
+        },
+    };
+
+    fetch(url, options)
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("Не вдалося видалити запис із сервера");
+            }
+            console.log(`✅ Стаття з id=${id} видалена`);
+        })
+        .catch((error) => {
+            console.error("❌ Помилка DELETE:", error);
+        })
+        .finally(() => {
+            // оновлюємо локальні дані
+            dataArray.splice(deleteIndex, 1);
+            renderList(dataArray);
+            modal.classList.add("is-hidden");
+            deleteIndex = null;
+        });
 });
 
 deleteButton.addEventListener("click", () => {
@@ -174,21 +235,28 @@ list.addEventListener("click", (e) => {
 
 editForm.addEventListener("submit", (event) => {
     event.preventDefault();
-    try {
-        const formData = new FormData(editForm);
-        const updatedNews = Object.fromEntries(formData.entries());
-
-        if (editIndex !== null) {
-            dataArray[editIndex] = updatedNews;
-            renderList(dataArray);
-        }
-    } catch (error) {
-        console.error(error);
-    } finally {
+    const formData = new FormData(editForm);
+    const updatedNews = Object.fromEntries(formData.entries());
+    const newsItem = dataArray[editIndex];
+    const id = newsItem.id;
+    dataArray[editIndex] = { ...newsItem, ...updatedNews };
+    renderList(dataArray);
+        const url = `${baseUrl}articles/${id}`;
+        fetch(url, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(updatedNews),
+        })
+            .then(res => {
+                if (!res.ok) throw new Error("Не вдалося оновити сервер");
+                return res.json();
+            })
+            .then(data => console.log("Стаття оновлена:", data))
+            .catch(error => console.error("Помилка:", error));
+        
         editForm.reset();
         editBackdrop.classList.add("is-hidden");
         editIndex = null;
-    }
 });
 
 editForm.querySelector(".cancel-edit-modal").addEventListener("click", () => {
@@ -199,24 +267,6 @@ editForm.querySelector(".cancel-edit-modal").addEventListener("click", () => {
 
 let totalResults = 0;
 let totalPages = 1;
-
-// function computePerPage() {
-//     return Number(perPageInput.value) || 5;
-// }
-
-// function updatePageNum() {
-//     pageNum.textContent = page;
-//     const perPage = computePerPage();
-//     const capped = Math.min(totalResults, 100);
-//     totalPages = Math.max(1, Math.ceil(capped / perPage));
-
-//     totalPagesSpan.textContent = totalPages;
-//     pageInput.min = 1;
-//     pageInput.max = totalPages;
-
-//     prevButton.disabled = page <= 1;
-//     pageInput.disabled = page >= totalPages;
-// }
 
 fetchButton.addEventListener("click", fetchPosts);
 prevButton.addEventListener("click", fetchPostsPrev);
