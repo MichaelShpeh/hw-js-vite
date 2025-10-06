@@ -1,0 +1,1 @@
+import"./modulepreload-polyfill-3cfb730f.js";const e=async()=>await(await fetch("https://newsapi.org/v2/top-headlines?country=us&pageSize=10&apiKey=56b82358896449f994f5fabbc62ff5f5")).json();e().then(s=>console.log("users:",s));
