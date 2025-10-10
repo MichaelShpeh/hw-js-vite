@@ -42,7 +42,7 @@ img {
 button {
     border: none;
   background: none;
-  color: #fff
+color: #ffffffbf;
 }
 
 button:hover {
@@ -52,16 +52,21 @@ button:hover {
 input {
     border: grey;
     background: none;
-    color: #fff;
+    color: #ffffffbf;
     text-align: center;
 }
 
+input:focus {
+    outline: #8a33c8 1px solid;
+    border-radius: 4px;
+ }
+
 label {
-    color: #fff;
+    color: #ffffffbf;
 }
 
 input::placeholder {
-    color: #fff;
+    color: #ffffffbf;
     text-align: center;
 }
 

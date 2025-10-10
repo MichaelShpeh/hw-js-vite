@@ -5,6 +5,40 @@ body {
 .main-title {
     width: 450px;
     margin: 0 auto;
+    margin-bottom: 50px;
+}
+
+.section {
+    width: 500px;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
+}
+
+.num-of-news {
+    margin-bottom: 30px;
+}
+
+.title-pages {
+    margin-bottom: 30px;
+}
+
+input {
+    width: 100px;
+}
+
+.per-page {
+    margin-bottom: 10px;
+}
+
+.page {
+    margin-bottom: 30px;
+}
+
+#fetch {
+    margin-bottom: 40px;
 }
 
 .backdrop {
@@ -46,7 +80,7 @@ body {
     text-align: center;
     transform: translate(-50%, -50%);
     border-radius: 2%;
-    background: #565656;
+    background: #303033;
     padding: 50px;
 }
 
@@ -61,7 +95,7 @@ body {
     text-align: center;
     transform: translate(-50%, -50%);
     border-radius: 2%;
-    background: #565656;
+    background: #303033;
     padding: 50px;
 }
 
@@ -81,3 +115,40 @@ body {
 
 #hidden-form {
     display: none; }
+
+
+#news-info-form {
+    height: 800px;
+    display: flex;
+    align-items: center;
+        flex-direction: column;
+        justify-content: space-between;
+}
+
+#news-info-form > input {
+    width: 100px;
+}
+
+.buttons {
+    width: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.pages {
+    width: 110px;
+    margin: 0 auto;
+}
+
+#edit-news-form {
+    height: 800px;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: space-between;
+}
+
+#edit-news-form > input {
+    width: 200px;
+}

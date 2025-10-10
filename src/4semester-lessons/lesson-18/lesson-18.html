@@ -15,14 +15,14 @@
     <h2 class="main-title">CRUD взаємодії з ресурсами бекенду</h2>
 
     <div class="section">
-        <button class="buttonOpn">Додати новину</button>
         <h3 class="num-of-news">Знайдено: <span id="news-num">N</span> новин</h3>
-        <h3><span id="page-num"></span> сторінка з <span id="total-pages"></span></h3>
+        <h3 class="title-pages"><span id="page-num"></span> сторінка з <span id="total-pages"></span></h3>
         <label for="per-page">Введіть кількість новин на сторінку</label>
         <input class="per-page" type="number" min="1" max="10" value="1" required />
         <label for="page">Введіть сторінку</label>
         <input class="page" type="number" min="1" max="100" value="1" />
         <button id="fetch">Отримати N новин</button>
+        <button class="buttonOpn"><h3>Додати новину</h3></button>
        
     </div>
 
@@ -35,8 +35,10 @@
                 <input class="input" type="text" name="title" placeholder="Заголовок" required />
                 <input class="input" type="text" name="description" placeholder="Опис" required />
                 <input class="input" type="text" name="content" placeholder="Вміст" required />
+                <div class="buttons">
                 <button class="button" type="submit">Додати новину</button>
                 <button class="formCloseBtn">Закрити</button>
+            </div>
             </form>
         </div>
     </div>
@@ -49,7 +51,7 @@
             </form>
         </div>
     </div>
-    <div class="backdrop-edit is-hidden">
+    <div class="backdrop-edit ishidden">
         <div class="modal-1">
             <form id="edit-news-form">
                 <h2>Редагування новини</h2>
@@ -57,10 +59,12 @@
                 <input class="input" type="text" name="title" placeholder="Заголовок" required />
                 <input class="input" type="text" name="description" placeholder="Опис" required />
                 <input class="input" type="text" name="content" placeholder="Вміст" required />
+                <div class="buttons">
                 <button type="submit">Зберегти</button>
                 <button type="button" class="cancel-edit-modal">
                     Скасувати
                 </button>
+                </div>
             </form>
         </div>
         </div>
