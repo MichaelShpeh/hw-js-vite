@@ -1,0 +1,14 @@
+<li class="student-item"  data-index="{{_index}}">
+  <h2 class="student-title">Новина №{{addOne _index}}</h2>
+  <div class="student-text">
+  <p>Автор:&nbsp;{{author}}</p>
+  <p>Id:&nbsp;{{id}}</p>
+  <p>Заголовок:&nbsp;{{title}}</p>
+  <p>Опис:&nbsp;{{description}}</p>
+  <p>Вміст:&nbsp;{{content}}</p>
+  </div>
+  <div class="news-actions">
+    <button class="edit-btn" data-index="{{_index}}">Edit</button>
+    <button class="delete-btn" data-index="{{_index}}">Delete</button>
+  </div>
+</li>
