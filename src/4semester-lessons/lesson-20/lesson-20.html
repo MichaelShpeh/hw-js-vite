@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mini project</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/styles.css">
+</head>
+
+<body>
+    <h2 class="main-title">Міні проєкт</h2>
+
+    <div class="section">
+        <div class="search-div is-hidden">
+            <label class="search-label" for="search">Пошук новин за ключовими словами</label>
+            <input class="search" type="text" placeholder="Ввід...">
+
+        </div>
+        <section class="fetch-request">
+            <section class="inputs">
+                <div class="div-inputs">
+                    <label for="per-page">N новин на сторінку</label>
+                    <input class="per-page" type="number" min="1" max="10" value="1" required />
+                </div>
+                <div class="div-inputs">
+                    <label for="page">Сторінка</label>
+                    <input class="page" type="number" min="1" max="" value="1" />
+                </div>
+            </section>
+            <button id="fetch">Отримати N новин</button>
+        </section>
+        <button class="buttonOpn">
+            <h3>Додати новину</h3>
+        </button>
+        <div class="info-section is-hidden">
+            <h3 class="num-of-news">Знайдено: <span id="news-num">N</span> новин</h3>
+            <h3 class="title-pages"><span id="page-num"></span> сторінка з <span id="total-pages"></span></h3>
+        </div>
+    </div>
+
+    <div class="backdrop-1 backdrp is-hidden">
+        <div class="modal">
+            <form id="news-info-form">
+                <h2>Додавання картки з новиною</h2>
+                <label class="label" for="author">Автор:
+                    <input class="input" type="text" name="author" placeholder="..." minlength="3" required />
+                </label>
+                <label class="label" for="title">Заголовок:
+                    <input class="input" type="text" name="title" placeholder="..." max="200" required />
+                </label>
+                <label class="label" for="description">Опис:
+                    <input class="input" type="text" name="description" placeholder="..." max="200" required />
+                </label>
+                <label class="label" for="content">Вміст:
+                    <input class="input" type="text" name="content" placeholder="..." max="200" required />
+                </label>
+               
+                <div class="buttons">
+                    <button class="button" type="submit">Додати новину</button>
+                    <button class="formCloseBtn">Скасувати</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="backdrop backdrp is-hidden">
+        <div class="modal modal-1">
+            <form>
+                <h2 class="modal-title">Видалити картку?</h2>
+                <button type="button" class="confirm-button">Так</button>
+                <button type="button" class="delete-button">Ні</button>
+            </form>
+        </div>
+    </div>
+    <div class="backdrop-edit backdrp is-hidden">
+        <div class="modal">
+            <form id="edit-news-form">
+                <h2>Редагування новини</h2>
+                <label class="label" for="author">Автор:
+                    <input class="input" type="text" name="author" placeholder="..." minlength="3" required />
+                </label>
+                <label class="label" for="title">Заголовок:
+                    <input class="input" type="text" name="title" placeholder="..." max="200" required />
+                </label>
+                <label class="label" for="description">Опис:
+                    <input class="input" type="text" name="description" placeholder="..." max="200" required />
+                </label>
+                <label class="label" for="content">Вміст:
+                    <input class="input" type="text" name="content" placeholder="..." max="200" required />
+                </label>
+                <div class="buttons">
+                    <button type="submit">Зберегти</button>
+                    <button type="button" class="cancel-edit-modal">
+                        Скасувати
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="backdrop-2 backdrp is-hidden">
+        <div class="modal" >
+            <form id="coment-form">
+                <h2>Додавання коментаря</h2>
+                <input class="input" type="text" name="user" placeholder="Автор" minlength="3" required />
+                <input class="input" type="text" name="text" placeholder="Вміст" required />
+
+                <div class="buttons">
+                    <button class="conf-com" type="submit">Додати коментар</button>
+                    <button id="formCloseBtn" type="button">Закрити</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="backdrop-delete backdrp is-hidden">
+        <div class="modal modal-1">
+            <h2 class="modal-title">Видалити коментар?</h2>
+            <div class="del-buttons">
+                <button type="button" class="confirm-delete">Так</button>
+                <button type="button" class="cancel-delete">Ні</button>
+            </div>
+        </div>
+    </div>
+    <div class="backdrop-edit-com backdrp is-hidden">
+        <div class="modal">
+            <h2>Редагування коментаря</h2>
+            <form id="edit-com-form">
+                <label for="user">
+                    Користувач:
+                    <input class="input" type="text" name="user" placeholder="..." minlength="3" required />
+                </label>
+                <label for="text">
+                    Коментар:
+                    <input class="input" type="text" name="text" placeholder="..." required />
+                </label>
+                
+                <div class="buttons">
+                    <button type="submit">Зберегти</button>
+                    <button type="button" class="cancel-edit">
+                        Скасувати
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <ul class="news-list">
+    </ul>
+
+    <div class="pages is-hidden">
+        <button class="prev-button">Назад</button>
+        <button class="next-button">Вперед</button>
+    </div>
+
+    <script type="module" src="./js/lesson-20.js"></script>
+</body>
+
+</html>

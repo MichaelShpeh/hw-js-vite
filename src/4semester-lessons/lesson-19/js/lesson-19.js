@@ -49,7 +49,7 @@ async function fetchPosts() {
         const perPage = getPerPage();
         page = getPage();
         const response = await fetch(`${baseUrl}${endPoint}_page=${page}&_per_page=${perPage}`);
-        if (!response.ok) throw new Error("Помилка при завантаженні даних");
+        // if (!response.ok) throw new Error("Помилка при завантаженні даних");
         const data = await response.json();
         console.log(data)
         const articles = Array.isArray(data.data) ? data.data : [];
@@ -87,7 +87,7 @@ closeBtn.addEventListener("click", function () {
 });
 
 //! додаємо статтю/новину вручну
-form.addEventListener("submit", async function (e) {
+form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
     try {
@@ -95,12 +95,13 @@ form.addEventListener("submit", async function (e) {
         const data = Object.fromEntries(formData.entries());
 
         const response = await fetch("http://localhost:3000/articles");
-        if (!response.ok) throw new Error("Помилка при надсиланні даних на сервер");
+        // if (!response.ok) throw new Error("Помилка при надсиланні даних на сервер");
         const articles = await response.json();
-        const lastItem = articles[articles.length - 1];
-        console.log("Останній елемент:", lastItem);
-        const lastId = lastItem ? Number(lastItem.id) : 0;
-        data.id = lastId + 1;
+        // const lastItem = articles[articles.length - 1];
+        // console.log("Останній елемент:", lastItem);
+        // const lastId = lastItem ? Number(lastItem.id) : 0;
+        // data.id = lastId + 1;
+        data.id = articles.lenght + 1;
 
         const postResponse = await fetch(`${baseUrl}${endPoint}`, {
             method: "POST",
@@ -223,7 +224,7 @@ editForm.addEventListener("submit", async (event) => {
     try {
         event.preventDefault();
         const formData = new FormData(editForm);
-        const updatedNews = Object.fromEntries(formData.entries());
+        const updatedNews = Object.fromEntries(formData.entries()); 
         const newsItem = dataArray[editIndex];
         const id = newsItem.id;
         dataArray[editIndex] = { ...newsItem, ...updatedNews };
@@ -234,7 +235,7 @@ editForm.addEventListener("submit", async (event) => {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(updatedNews),
         })
-        if (!response.ok) throw new Error("Не вдалося оновити сервер");
+        // if (!response.ok) throw new Error("Не вдалося оновити сервер");
         editForm.reset();
         editBackdrop.classList.add("is-hidden");
         editIndex = null;

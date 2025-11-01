@@ -1,0 +1,34 @@
+<li class="news-item"  data-index="{{_index}}">
+  <h2 class="student-title">Новина №{{addOne _index}}</h2>
+  <div class="student-text">
+  <p>Автор:&nbsp;{{author}}</p>
+  <p>Id:&nbsp;{{id}}</p>
+  <p>Заголовок:&nbsp;{{title}}</p>
+  <p>Опис:&nbsp;{{description}}</p>
+  <p>Вміст:&nbsp;{{content}}</p>
+  </div>
+  <div class="coments">
+    <h2 class="comments-title">Коментарі:</h2>
+    {{#if comments.length}}
+      <ul class="coments-list">
+        {{#each comments}}
+          <li class="comment" data-comment-id="{{id}}">
+            <p>Користувач:&nbsp;{{user}}</p>
+            <p>Коментар:&nbsp;{{text}}</p>
+            <div class="buttons">
+            <button class="edit-cmnt">Редагувати</button>
+            <button class="delete-cmnt">Видалити</button>
+            </div>
+          </li>
+        {{/each}}
+      </ul>
+    {{else}}
+      <p>Немає коментарів</p>
+    {{/if}}
+  </div>
+  <button class="coments-button" data-id="{{id}}">Додати коментар</button>
+  <div class="news-actions">
+    <button class="edit-btn" data-index="{{_index}}">Редагувати</button>
+    <button class="delete-btn" data-index="{{_index}}">Видалити</button>
+  </div>
+</li>
